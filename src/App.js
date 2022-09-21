@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "boxicons/css/boxicons.min.css";
+import "./App.css";
+import Details from "./components/Details";
+import Header from "./components/Header";
+import { useSelector } from "react-redux";
+import EmptyNotes from "./components/EmptyNotes";
+import SearchBar from "./components/SearchBar";
 
 function App() {
+  const { notes ,query} = useSelector((state) => {
+    return state;
+  });
+  const filterNote = notes.filter((note) =>
+    note.title.toLowerCase().includes(query.toLowerCase())
+  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto pb-5  px-2   w-full min-h-full   ">
+      <Header />
+      <SearchBar />
+
+      {filterNote.length ? <Details  filterNote={filterNote} /> : <EmptyNotes />}
     </div>
   );
 }
